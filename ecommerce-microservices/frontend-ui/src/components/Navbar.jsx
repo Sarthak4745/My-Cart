@@ -28,7 +28,7 @@ export default function Navbar() {
               S
             </div>
             <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500">
-              Clahan Store
+              My cart
             </span>
           </Link>
 
@@ -57,11 +57,11 @@ export default function Navbar() {
                 {!user && (
                   <Link to="/admin-auth" className="text-gray-300 hover:text-blue-400 transition-colors text-sm font-medium">Seller Portal</Link>
                 )}
-                
+
                 <button onClick={() => requireAuth(() => navigate('/wishlist'))} className="text-gray-300 hover:text-pink-400 transition-colors p-2">
                   <FiHeart size={22} />
                 </button>
-                
+
                 <button onClick={() => requireAuth(() => navigate('/cart'))} className="text-gray-300 hover:text-purple-400 transition-colors p-2 relative group">
                   <FiShoppingCart size={22} className="group-hover:animate-cart-bounce" />
                   {cart?.count > 0 && (
@@ -105,8 +105,8 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center gap-4">
-             {isCustomer && (
-               <button onClick={() => requireAuth(() => navigate('/cart'))} className="text-gray-300 relative">
+            {isCustomer && (
+              <button onClick={() => requireAuth(() => navigate('/cart'))} className="text-gray-300 relative">
                 <FiShoppingCart size={22} />
                 {cart?.count > 0 && (
                   <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
@@ -114,7 +114,7 @@ export default function Navbar() {
                   </span>
                 )}
               </button>
-             )}
+            )}
             <button onClick={() => setMenuOpen(!menuOpen)} className="text-gray-300 p-2">
               {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
             </button>
@@ -144,20 +144,20 @@ export default function Navbar() {
               </>
             )}
             {user ? (
-               <>
-                 {isCustomer && (
-                   <>
+              <>
+                {isCustomer && (
+                  <>
                     <Link to="/orders" className="text-gray-300 py-2 border-b border-white/5" onClick={() => setMenuOpen(false)}>Order History</Link>
                     <Link to="/wishlist" className="text-gray-300 py-2 border-b border-white/5" onClick={() => setMenuOpen(false)}>Wishlist</Link>
-                   </>
-                 )}
-                 {user.role === 'admin' && (
-                    <Link to="/admin" className="text-purple-400 py-2 border-b border-white/5" onClick={() => setMenuOpen(false)}>Admin Dashboard</Link>
-                 )}
-                 <button onClick={async () => { await logout(); window.location.href = '/'; setMenuOpen(false); }} className="text-pink-400 py-2 text-left">Sign Out</button>
-               </>
+                  </>
+                )}
+                {user.role === 'admin' && (
+                  <Link to="/admin" className="text-purple-400 py-2 border-b border-white/5" onClick={() => setMenuOpen(false)}>Admin Dashboard</Link>
+                )}
+                <button onClick={async () => { await logout(); window.location.href = '/'; setMenuOpen(false); }} className="text-pink-400 py-2 text-left">Sign Out</button>
+              </>
             ) : (
-               <button onClick={() => { setShowLoginModal(true); setMenuOpen(false); }} className="text-purple-400 py-2 text-left">Sign In</button>
+              <button onClick={() => { setShowLoginModal(true); setMenuOpen(false); }} className="text-purple-400 py-2 text-left">Sign In</button>
             )}
           </div>
         </div>

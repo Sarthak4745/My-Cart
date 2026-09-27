@@ -17,6 +17,22 @@ export const registerAdmin = (data) => api.post('/auth/register-admin', data);
 export const logoutUser = () => api.post('/auth/logout');
 export const verifyToken = () => api.post('/auth/verify');
 
+// Global 403 handler — shows a toast for any forbidden response
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 403) {
+      import('react-hot-toast').then(({ default: toast }) => {
+        toast.error(
+          error.response.data?.error || 'Access Denied: You do not have permission for this action',
+          { id: 'forbidden-error' }
+        );
+      });
+    }
+    return Promise.reject(error);
+  }
+);
+
 // Products
 export const getProducts = (params) => api.get('/products', { params });
 export const getProduct = (id) => api.get(`/products/${id}`);

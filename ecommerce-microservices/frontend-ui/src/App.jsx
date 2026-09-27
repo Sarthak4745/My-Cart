@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -19,8 +19,30 @@ import TrackPackage from './pages/TrackPackage';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminAuth from './pages/AdminAuth';
 
+// Admin only — redirects guests to /admin-auth, customers to /
+const AdminRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  if (loading) return null;
+  if (!user) return <Navigate to="/admin-auth" replace />;
+  if (user.role !== 'admin') return <Navigate to="/" replace state={{ forbidden: true }} />;
+  return children;
+};
+
+// Login required — opens login modal and redirects home if not authenticated
+const ProtectedRoute = ({ children }) => {
+  const { user, loading, setShowLoginModal } = useAuth();
+  if (loading) return null;
+  if (!user) {
+    setTimeout(() => setShowLoginModal(true), 0);
+    return <Navigate to="/" replace />;
+  }
+  return children;
+};
+
+// Redirects admin users away from customer pages
 const CustomerRoute = ({ children }) => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  if (loading) return null;
   if (user && user.role === 'admin') return <Navigate to="/admin" replace />;
   return children;
 };
@@ -35,24 +57,31 @@ function App() {
             <LoginModal />
             <main className="flex-grow">
               <Routes>
+                {/* Public / Customer Routes */}
                 <Route path="/" element={<CustomerRoute><Home /></CustomerRoute>} />
                 <Route path="/products" element={<CustomerRoute><ProductList /></CustomerRoute>} />
                 <Route path="/product/:id" element={<CustomerRoute><ProductDetail /></CustomerRoute>} />
-                <Route path="/cart" element={<CustomerRoute><Cart /></CustomerRoute>} />
-                <Route path="/wishlist" element={<CustomerRoute><Wishlist /></CustomerRoute>} />
-                <Route path="/orders" element={<CustomerRoute><OrderHistory /></CustomerRoute>} />
-                <Route path="/track/:orderId" element={<CustomerRoute><TrackPackage /></CustomerRoute>} />
-                <Route path="/admin" element={<AdminDashboard />} />
+
+                {/* Protected Customer Routes — require login */}
+                <Route path="/cart" element={<ProtectedRoute><CustomerRoute><Cart /></CustomerRoute></ProtectedRoute>} />
+                <Route path="/wishlist" element={<ProtectedRoute><CustomerRoute><Wishlist /></CustomerRoute></ProtectedRoute>} />
+                <Route path="/orders" element={<ProtectedRoute><CustomerRoute><OrderHistory /></CustomerRoute></ProtectedRoute>} />
+                <Route path="/track/:orderId" element={<ProtectedRoute><CustomerRoute><TrackPackage /></CustomerRoute></ProtectedRoute>} />
+
+                {/* Admin Routes — require admin role */}
+                <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+
+                {/* Admin Auth page */}
                 <Route path="/admin-auth" element={<AdminAuth />} />
               </Routes>
             </main>
-            
+
             <footer className="bg-[#1a1a2e] border-t border-white/10 mt-20">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                   <div className="col-span-1 md:col-span-2">
                     <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500 mb-4 block">
-                      Clahan Store
+                      My cart
                     </span>
                     <p className="text-gray-400 max-w-sm mt-4">
                       The premium destination for the finest products. Cloud-native microservices architecture powering a seamless shopping experience.
@@ -76,12 +105,12 @@ function App() {
                   </div>
                 </div>
                 <div className="border-t border-white/10 mt-12 pt-8 text-center text-gray-500 text-sm">
-                  &copy; 2024 Clahan Store Platform. All rights reserved.
+                  &copy; 2024 My cart Platform. All rights reserved.
                 </div>
               </div>
             </footer>
           </div>
-          <Toaster 
+          <Toaster
             position="top-center"
             toastOptions={{
               style: {
@@ -96,7 +125,7 @@ function App() {
                 boxShadow: '0 25px 50px -12px rgba(168, 85, 247, 0.4)',
                 maxWidth: '600px'
               },
-              success: { 
+              success: {
                 iconTheme: { primary: '#a855f7', secondary: '#fff' },
                 duration: 4000
               },

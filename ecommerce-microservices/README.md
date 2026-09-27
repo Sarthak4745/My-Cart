@@ -1,4 +1,4 @@
-﻿# Clahan Store — Premium E-Commerce Microservices Platform
+﻿# My cart — Premium E-Commerce Microservices Platform
 
 A complete, production-ready full-stack e-commerce application built with a **Microservices Architecture**. Designed for cloud-native deployment with **Docker** and **Kubernetes**.
 
@@ -58,7 +58,7 @@ To deploy the cluster to a local or cloud-native Kubernetes environment (e.g. Mi
 
 ```bash
 cd ecommerce-microservices
-kubectl apply -f kubernetes/configmaps/clahanstore-config.yaml
+kubectl apply -f kubernetes/configmaps/MyCart-config.yaml
 kubectl apply -f kubernetes/deployments/all-deployments.yaml
 kubectl apply -f kubernetes/services/all-services.yaml
 ```

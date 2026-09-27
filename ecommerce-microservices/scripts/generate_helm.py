@@ -13,7 +13,7 @@ def to_camel_case(kebab_str):
     return parts[0] + ''.join(x.title() for x in parts[1:])
 
 values_dict = {
-    "namespace": "clahanstore"
+    "namespace": "MyCart"
 }
 
 def process_file(filepath, filename_suffix=None):
@@ -42,7 +42,7 @@ def process_file(filepath, filename_suffix=None):
         kind = kind_match.group(1).strip()
         
         # Helmfiy (replacing fixed namespaces with the values parameter)
-        doc = re.sub(r'namespace:\s*clahanstore', 'namespace: {{ .Values.namespace }}', doc)
+        doc = re.sub(r'namespace:\s*MyCart', 'namespace: {{ .Values.namespace }}', doc)
         doc = re.sub(r'namespace:\s*shopverse', 'namespace: {{ .Values.namespace }}', doc)
         
         # Exclude Namespace definitions to prevent Helm ownership conflicts
@@ -104,7 +104,7 @@ def main():
     # Process files
     process_file(os.path.join('kubernetes', 'deployments', 'all-deployments.yaml'), 'deploy')
     process_file(os.path.join('kubernetes', 'services', 'all-services.yaml'), 'service')
-    process_file(os.path.join('kubernetes', 'configmaps', 'ClahanStore-config.yaml'))
+    process_file(os.path.join('kubernetes', 'configmaps', 'MyCart-config.yaml'))
     process_file(os.path.join('kubernetes', 'configmaps', 'secrets.yaml'))
     process_file(os.path.join('kubernetes', 'hpa', 'all-hpa.yaml'))
     process_file(os.path.join('kubernetes', 'deployments', 'mongodb-statefulset.yaml'))

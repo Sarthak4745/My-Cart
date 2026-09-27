@@ -5,7 +5,7 @@ import json
 files_to_process = [
     r'kubernetes\deployments\all-deployments.yaml',
     r'kubernetes\services\all-services-backup.yaml',
-    r'kubernetes\configmaps\clahanstore-config.yaml',
+    r'kubernetes\configmaps\MyCart-config.yaml',
     r'kubernetes\configmaps\secrets.yaml',
     r'kubernetes\hpa\all-hpa.yaml',
     r'kubernetes\deployments\mongodb-statefulset.yaml'
@@ -17,7 +17,7 @@ TEMPLATES_DIR = os.path.join(RELEASE_DIR, 'templates')
 os.makedirs(TEMPLATES_DIR, exist_ok=True)
 
 values = {
-  "namespace": "clahanstore"
+  "namespace": "MyCart"
 }
 
 def to_camel_case(kebab_str):
@@ -46,7 +46,7 @@ def process_file(filepath, is_deployment):
         name = name_match.group(1).strip()
         kind = kind_match.group(1).strip()
         
-        doc = re.sub(r'namespace:\s*clahanstore', 'namespace: {{ .Values.namespace }}', doc)
+        doc = re.sub(r'namespace:\s*MyCart', 'namespace: {{ .Values.namespace }}', doc)
         
         camel_name = to_camel_case(name)
         file_name = f"{name}-{kind.lower()}.yaml"

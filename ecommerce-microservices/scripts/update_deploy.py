@@ -11,8 +11,8 @@ text = re.sub(r'image:\s*vignesh8386/([^:]+):latest', r'image: team4ofdevops/eco
 
 # Replace configMapKeyRef for MONGO_URI with secretKeyRef
 text = re.sub(
-    r'(\s+)configMapKeyRef:\n(\s+)name: clahanstore-config\n(\s+)key: MONGO_URI_(\w+)',
-    r'\1secretKeyRef:\n\2name: clahanstore-secrets\n\3key: MONGO_URI_\4',
+    r'(\s+)configMapKeyRef:\n(\s+)name: MyCart-config\n(\s+)key: MONGO_URI_(\w+)',
+    r'\1secretKeyRef:\n\2name: MyCart-secrets\n\3key: MONGO_URI_\4',
     text
 )
 
@@ -22,7 +22,7 @@ jwt_inline = """        - name: JWT_SECRET
 jwt_secret_ref = """        - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: JWT_SECRET"""
 
 text = text.replace(jwt_inline, jwt_secret_ref)

@@ -28,7 +28,7 @@ spec:
         - containerPort: 3000
         envFrom:
         - configMapRef:
-            name: clahanstore-config
+            name: MyCart-config
         resources:
           requests:
             cpu: 25m

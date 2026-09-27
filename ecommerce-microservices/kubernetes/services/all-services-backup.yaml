@@ -2,7 +2,7 @@
 kind: Service
 metadata:
   name: mongodb
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: mongodb
@@ -15,7 +15,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: api-gateway
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: api-gateway
@@ -28,7 +28,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: user-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: user-service
@@ -41,7 +41,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: auth-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: auth-service
@@ -54,7 +54,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: product-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: product-service
@@ -67,7 +67,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: search-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: search-service
@@ -80,7 +80,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: inventory-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: inventory-service
@@ -93,7 +93,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cart-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: cart-service
@@ -106,7 +106,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wishlist-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: wishlist-service
@@ -119,7 +119,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: order-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: order-service
@@ -132,7 +132,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: payment-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: payment-service
@@ -145,7 +145,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: invoice-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: invoice-service
@@ -158,7 +158,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: shipping-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: shipping-service
@@ -171,7 +171,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: review-rating-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: review-rating-service
@@ -184,7 +184,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: recommendation-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: recommendation-service
@@ -197,7 +197,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: admin-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: admin-service
@@ -210,7 +210,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: frontend-ui
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   selector:
     app: frontend-ui

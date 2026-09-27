@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: clahanstore
+  name: MyCart
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-gateway
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 2
   strategy:
@@ -31,7 +31,7 @@ spec:
         - containerPort: 3000
         envFrom:
         - configMapRef:
-            name: clahanstore-config
+            name: MyCart-config
         resources:
           requests:
             cpu: 25m
@@ -44,7 +44,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: user-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 1
   strategy:
@@ -71,7 +71,7 @@ spec:
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_USER
         resources:
           requests:
@@ -85,7 +85,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: auth-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 2
   strategy:
@@ -112,12 +112,12 @@ spec:
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: JWT_SECRET
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_AUTH
         resources:
           requests:
@@ -131,7 +131,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: product-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 2
   strategy:
@@ -158,7 +158,7 @@ spec:
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_PRODUCT
         resources:
           requests:
@@ -172,7 +172,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: search-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 1
   strategy:
@@ -199,12 +199,12 @@ spec:
         - name: PRODUCT_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: PRODUCT_SERVICE_URL
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_SEARCH
         resources:
           requests:
@@ -218,7 +218,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: inventory-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 1
   strategy:
@@ -245,7 +245,7 @@ spec:
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_INVENTORY
         resources:
           requests:
@@ -259,7 +259,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cart-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 1
   strategy:
@@ -286,17 +286,17 @@ spec:
         - name: PRODUCT_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: PRODUCT_SERVICE_URL
         - name: INVENTORY_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: INVENTORY_SERVICE_URL
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_CART
         resources:
           requests:
@@ -310,7 +310,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wishlist-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 1
   strategy:
@@ -337,12 +337,12 @@ spec:
         - name: PRODUCT_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: PRODUCT_SERVICE_URL
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_WISHLIST
         resources:
           requests:
@@ -356,7 +356,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: order-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 1
   strategy:
@@ -383,7 +383,7 @@ spec:
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_ORDER
         resources:
           requests:
@@ -397,7 +397,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: payment-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 1
   strategy:
@@ -424,12 +424,12 @@ spec:
         - name: ORDER_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: ORDER_SERVICE_URL
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_PAYMENT
         resources:
           requests:
@@ -443,7 +443,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: invoice-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 1
   strategy:
@@ -470,17 +470,17 @@ spec:
         - name: ORDER_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: ORDER_SERVICE_URL
         - name: PAYMENT_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: PAYMENT_SERVICE_URL
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_INVOICE
         resources:
           requests:
@@ -494,7 +494,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: shipping-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 1
   strategy:
@@ -521,12 +521,12 @@ spec:
         - name: ORDER_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: ORDER_SERVICE_URL
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_SHIPPING
         resources:
           requests:
@@ -540,7 +540,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: review-rating-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 1
   strategy:
@@ -567,12 +567,12 @@ spec:
         - name: PRODUCT_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: PRODUCT_SERVICE_URL
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_REVIEW
         resources:
           requests:
@@ -586,7 +586,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: recommendation-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 1
   strategy:
@@ -613,22 +613,22 @@ spec:
         - name: USER_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: USER_SERVICE_URL
         - name: PRODUCT_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: PRODUCT_SERVICE_URL
         - name: ORDER_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: ORDER_SERVICE_URL
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_RECOMMENDATION
         resources:
           requests:
@@ -642,7 +642,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: admin-service
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 1
   strategy:
@@ -669,32 +669,32 @@ spec:
         - name: USER_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: USER_SERVICE_URL
         - name: PRODUCT_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: PRODUCT_SERVICE_URL
         - name: ORDER_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: ORDER_SERVICE_URL
         - name: INVENTORY_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: INVENTORY_SERVICE_URL
         - name: SHIPPING_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: SHIPPING_SERVICE_URL
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_ADMIN
         resources:
           requests:
@@ -708,7 +708,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend-ui
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   replicas: 2
   strategy:

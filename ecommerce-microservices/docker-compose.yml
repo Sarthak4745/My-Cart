@@ -1,32 +1,32 @@
-﻿version: '3.8'
 
 services:
   mongodb:
     image: mongo:6.0
-    container_name: clahanstore-mongo
+    container_name: MyCart-mongo
     ports:
       - "27017:27017"
     volumes:
       - mongodata:/data/db
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   user-service:
     build: ./user-service
-    container_name: clahanstore-user
+    container_name: MyCart-user
     ports:
       - "3001:3001"
     environment:
       - PORT=3001
       - MONGO_URI=mongodb://mongodb:27017/userdb
+      - ADMIN_REGISTRATION_SECRET=admin_secret_2024
     depends_on:
       - mongodb
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   authentication-service:
     build: ./authentication-service
-    container_name: clahanstore-auth
+    container_name: MyCart-auth
     ports:
       - "3002:3002"
     environment:
@@ -36,11 +36,11 @@ services:
     depends_on:
       - mongodb
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   product-service:
     build: ./product-service
-    container_name: clahanstore-product
+    container_name: MyCart-product
     ports:
       - "3003:3003"
     environment:
@@ -49,11 +49,11 @@ services:
     depends_on:
       - mongodb
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   search-service:
     build: ./search-service
-    container_name: clahanstore-search
+    container_name: MyCart-search
     ports:
       - "3004:3004"
     environment:
@@ -64,11 +64,11 @@ services:
       - mongodb
       - product-service
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   inventory-service:
     build: ./inventory-service
-    container_name: clahanstore-inventory
+    container_name: MyCart-inventory
     ports:
       - "3005:3005"
     environment:
@@ -77,11 +77,11 @@ services:
     depends_on:
       - mongodb
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   cart-service:
     build: ./cart-service
-    container_name: clahanstore-cart
+    container_name: MyCart-cart
     ports:
       - "3006:3006"
     environment:
@@ -94,11 +94,11 @@ services:
       - product-service
       - inventory-service
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   wishlist-service:
     build: ./wishlist-service
-    container_name: clahanstore-wishlist
+    container_name: MyCart-wishlist
     ports:
       - "3007:3007"
     environment:
@@ -109,11 +109,11 @@ services:
       - mongodb
       - product-service
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   order-service:
     build: ./order-service
-    container_name: clahanstore-order
+    container_name: MyCart-order
     ports:
       - "3008:3008"
     environment:
@@ -122,11 +122,11 @@ services:
     depends_on:
       - mongodb
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   payment-service:
     build: ./payment-service
-    container_name: clahanstore-payment
+    container_name: MyCart-payment
     ports:
       - "3009:3009"
     environment:
@@ -137,11 +137,11 @@ services:
       - mongodb
       - order-service
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   invoice-service:
     build: ./invoice-service
-    container_name: clahanstore-invoice
+    container_name: MyCart-invoice
     ports:
       - "3010:3010"
     environment:
@@ -154,11 +154,11 @@ services:
       - order-service
       - payment-service
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   shipping-service:
     build: ./shipping-service
-    container_name: clahanstore-shipping
+    container_name: MyCart-shipping
     ports:
       - "3011:3011"
     environment:
@@ -169,11 +169,11 @@ services:
       - mongodb
       - order-service
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   review-rating-service:
     build: ./review-rating-service
-    container_name: clahanstore-review
+    container_name: MyCart-review
     ports:
       - "3012:3012"
     environment:
@@ -184,11 +184,11 @@ services:
       - mongodb
       - product-service
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   recommendation-service:
     build: ./recommendation-service
-    container_name: clahanstore-recommendation
+    container_name: MyCart-recommendation
     ports:
       - "3013:3013"
     environment:
@@ -201,11 +201,11 @@ services:
       - mongodb
       - product-service
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   admin-service:
     build: ./admin-service
-    container_name: clahanstore-admin
+    container_name: MyCart-admin
     ports:
       - "3014:3014"
     environment:
@@ -219,15 +219,16 @@ services:
     depends_on:
       - mongodb
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   api-gateway:
     build: ./api-gateway
-    container_name: clahanstore-gateway
+    container_name: MyCart-gateway
     ports:
       - "3000:3000"
     environment:
       - PORT=3000
+      - ADMIN_REGISTRATION_SECRET=admin_secret_2024
       - USER_SERVICE_URL=http://user-service:3001
       - AUTH_SERVICE_URL=http://authentication-service:3002
       - PRODUCT_SERVICE_URL=http://product-service:3003
@@ -258,20 +259,20 @@ services:
       - recommendation-service
       - admin-service
     networks:
-      - Clahan Store-net
+      - My cart-net
 
   frontend-ui:
     build: ./frontend-ui
-    container_name: clahanstore-frontend
+    container_name: MyCart-frontend
     ports:
       - "80:80"
     depends_on:
       - api-gateway
     networks:
-      - Clahan Store-net
+      - My cart-net
 
 networks:
-  Clahan Store-net:
+  My cart-net:
     driver: bridge
 
 volumes:

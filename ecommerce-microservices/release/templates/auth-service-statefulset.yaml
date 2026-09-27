@@ -31,12 +31,12 @@ spec:
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: JWT_SECRET
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_AUTH
         resources:
           requests:

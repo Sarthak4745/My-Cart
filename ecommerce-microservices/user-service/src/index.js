@@ -4,15 +4,23 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
+const ADMIN_REGISTRATION_SECRET = process.env.ADMIN_REGISTRATION_SECRET || 'admin_secret_2024';
+
+// Defense-in-depth: verifies x-user-role header set by the gateway
+const internalAdminOnly = (req, res, next) => {
+  if (req.headers['x-user-role'] !== 'admin') {
+    return res.status(403).json({ error: 'Forbidden: Admin role required' });
+  }
+  next();
+};
+
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Connection
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongodb:27017/userdb';
 mongoose.connect(MONGO_URI).then(() => console.log('User Service: MongoDB connected')).catch(err => console.error(err));
 
-// User Schema
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
@@ -26,7 +34,6 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-// Seed admin user
 async function seedAdmin() {
   const existing = await User.findOne({ email: 'admin@example.com' });
   if (!existing) {
@@ -37,10 +44,8 @@ async function seedAdmin() {
 }
 seedAdmin();
 
-// Health check
 app.get('/health', (req, res) => res.json({ status: 'ok', service: 'user-service' }));
 
-// Register
 app.post('/register', async (req, res) => {
   try {
     const { name, email, password, phone, address } = req.body;
@@ -54,10 +59,13 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// Register Admin
+// Requires adminSecretKey — prevents self-promotion to admin
 app.post('/register-admin', async (req, res) => {
   try {
-    const { name, email, password, phone, address } = req.body;
+    const { name, email, password, phone, address, adminSecretKey } = req.body;
+    if (!adminSecretKey || adminSecretKey !== ADMIN_REGISTRATION_SECRET) {
+      return res.status(403).json({ error: 'Forbidden: Invalid admin registration key' });
+    }
     const exists = await User.findOne({ email });
     if (exists) return res.status(400).json({ error: 'Email already registered' });
     const hashed = await bcrypt.hash(password, 10);
@@ -68,7 +76,6 @@ app.post('/register-admin', async (req, res) => {
   }
 });
 
-// Login
 app.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -82,7 +89,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Get Profile
 app.get('/profile/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select('-password');
@@ -93,7 +99,6 @@ app.get('/profile/:id', async (req, res) => {
   }
 });
 
-// Update Profile
 app.put('/profile/:id', async (req, res) => {
   try {
     const { name, phone, address, avatar } = req.body;
@@ -104,8 +109,7 @@ app.put('/profile/:id', async (req, res) => {
   }
 });
 
-// Get all users (admin)
-app.get('/users', async (req, res) => {
+app.get('/users', internalAdminOnly, async (req, res) => {
   try {
     const users = await User.find().select('-password');
     res.json(users);

@@ -2,7 +2,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: frontend-ui-hpa
-  namespace: clahanstore
+  namespace: MyCart
 spec:
   scaleTargetRef:
     apiVersion: apps/v1

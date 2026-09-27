@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-# Define your Docker Hub username here. Defaults to 'Clahan Store' based on the existing k8s manifests.
+# Define your Docker Hub username here. Defaults to 'My cart' based on the existing k8s manifests.
 $DOCKER_USERNAME = "team4devops"
 
 # List of microservices to build and push

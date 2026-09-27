@@ -1,4 +1,4 @@
-namespace: clahanstore
+namespace: MyCart
 apiGateway:
   replicas: 2
   image:

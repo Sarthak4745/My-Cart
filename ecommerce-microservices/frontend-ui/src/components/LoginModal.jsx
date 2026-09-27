@@ -36,7 +36,7 @@ export default function LoginModal() {
         <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-pink-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
-        <button 
+        <button
           onClick={() => setShowLoginModal(false)}
           className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors p-1"
         >
@@ -47,7 +47,7 @@ export default function LoginModal() {
           {isLogin ? 'Welcome Back' : 'Create Account'}
         </h2>
         <p className="text-gray-400 text-center mb-8">
-          {isLogin ? 'Sign in to access your cart and orders' : 'Join Clahan Store for exclusive benefits'}
+          {isLogin ? 'Sign in to access your cart and orders' : 'Join My cart for exclusive benefits'}
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
@@ -91,7 +91,7 @@ export default function LoginModal() {
 
         <div className="mt-8 text-center text-sm text-gray-400 z-10 relative">
           {isLogin ? "Don't have an account? " : "Already have an account? "}
-          <button 
+          <button
             type="button"
             onClick={() => setIsLogin(!isLogin)}
             className="text-purple-400 hover:text-purple-300 font-semibold transition-colors"

@@ -31,22 +31,22 @@ spec:
         - name: USER_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: USER_SERVICE_URL
         - name: PRODUCT_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: PRODUCT_SERVICE_URL
         - name: ORDER_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: clahanstore-config
+              name: MyCart-config
               key: ORDER_SERVICE_URL
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: clahanstore-secrets
+              name: MyCart-secrets
               key: MONGO_URI_RECOMMENDATION
         resources:
           requests:
